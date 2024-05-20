@@ -13,6 +13,7 @@ import { PagesComponent } from './pages.component';
 import { GraficalComponent } from './grafical/grafical.component';
 import { ProgressComponent } from './progress/progress.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 
 
@@ -24,14 +25,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     DashboardComponent,
     ProgressComponent,
     GraficalComponent,
-    PagesComponent
+    PagesComponent,
+    AccountSettingsComponent
   ],
   //teemos que exportar para ser utilizados si queremos usarlo fuera de este modulo
   exports: [
     DashboardComponent,
     ProgressComponent,
     GraficalComponent,
-    PagesComponent
+    PagesComponent,
+    AccountSettingsComponent
   ],
   imports: [
     CommonModule,
