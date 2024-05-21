@@ -27,7 +27,12 @@
                                 </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li *ngFor="let subMenuItem of item.submenu">
-                                    <a [routerLink]="subMenuItem.url">{{subMenuItem.titulo}} </a>
+                                    <a [routerLink]="subMenuItem.url"
+                                       routerLinkActive="active"
+                                       [routerLinkActiveOptions]="{exact:true}">{{subMenuItem.titulo}} </a>
+                                       <!-- El routerLinkactive es para que la opccion que tenemos este activa
+                                    y como el caso del main siempre coincide con una queremos que sea exacta, por lo tanto se usa
+                                el router linkactiveoptions diciendole que lo que nos manda eso se quede activado -->
                                 </li>
                                 
                             </ul>
