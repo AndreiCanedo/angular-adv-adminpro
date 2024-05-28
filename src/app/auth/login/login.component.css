@@ -48,4 +48,9 @@ Login register and recover password Page
       right: 0px;
       position: absolute;
       height: 100%; }
+
+  .centradog{
+      display:flex;
+      justify-content:center;
+  }
   
