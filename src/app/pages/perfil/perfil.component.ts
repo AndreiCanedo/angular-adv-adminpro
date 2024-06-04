@@ -53,18 +53,18 @@ export class PerfilComponent implements OnInit{
       cambiarImagen( file:File ){
         this.imagenSubir = file;
         
-    if( !file ){
-       this.imgTemp =null;
-       return;
-      }
-      
-      const reader = new FileReader();
-      reader.readAsDataURL( file );
-      
-      reader.onloadend = () => {
-      this.imgTemp = reader.result;
+        if( !file ){
+           this.imgTemp =null;
+           return;
+        }
+
+          const reader = new FileReader();
+          reader.readAsDataURL( file );
+
+          reader.onloadend = () => {
+            this.imgTemp = reader.result;
+          }
     }
-  }
 
   subirImagen(){
     this.fileUploadService
