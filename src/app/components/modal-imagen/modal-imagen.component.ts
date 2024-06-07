@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
+import Swal from 'sweetalert2';
 
 import { ModalImagenService } from '../../services/modal-imagen.service';
 import { FileUploadService } from '../../services/file-upload.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-imagen',
@@ -11,31 +11,35 @@ import Swal from 'sweetalert2';
 })
 export class ModalImagenComponent {
   public imagenSubir!: File;
+  public imagenTemFile!: File;
   public imgTemp: any = '';
 
  public modalImagenService= inject(ModalImagenService);
  public fileUploadService= inject(FileUploadService);
 
   cerrarModal(){
+    
     this.imgTemp = null;
+    
     //esto para cada vez que cierres el nodal no te aparesca la imagen que subiste no guardaste
     this.modalImagenService.cerrarModal();
   }
 
   cambiarImagen( file:File ){
+    
     this.imagenSubir = file;
-
+    
     if( !file ){
       this.imgTemp =null;
       return;
     }
   
-    const reader = new FileReader();
-    reader.readAsDataURL( file );
+     const reader = new FileReader();
+     reader.readAsDataURL( file );
   
-    reader.onloadend = () => {
-      this.imgTemp = reader.result;
-    }
+     reader.onloadend = () => {
+       this.imgTemp = reader.result;
+     }
   }
 
   subirImagen(){
