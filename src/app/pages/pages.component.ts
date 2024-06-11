@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { SettingsService } from '../services/settings.service';
+import { SidebarService } from '../services/sidebar.service';
 
 declare function customInitFunctions():any;
 //si no declaro la funcion me marca error, esta funcion esta de modo global
@@ -14,12 +15,15 @@ declare function customInitFunctions():any;
 export class PagesComponent  implements OnInit{
   
   private settingsService= inject(SettingsService);
+  private sidebarService = inject(SidebarService);
 
   ngOnInit(): void {
     customInitFunctions();
     //esta funcion se tubo que hacer para que cuando logueara no me volviera a cargar la pagina
     //esta funcion viene de  assets/js/custom.js, esto no es causa de angular si no de 
     //quien diseño el archivo
+
+    this.sidebarService.cargarMenu();
   }
 
 }

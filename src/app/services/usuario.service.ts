@@ -29,26 +29,27 @@ export class UsuarioService {
   
   private http = inject(HttpClient);
 
-  logout() {
-    localStorage.removeItem('token');
-    
-    google.accounts.id.revoke('mec102092@gmail.com', () =>{
-      
-      this.router.navigateByUrl('/login');
-      
-    })
   
+  guardarLocalStorage( token: string, menu:any){
+    localStorage.setItem('token', token)
+    //console.log(menu)
+    localStorage.setItem('menu', JSON.stringify( menu ) );
+    //el localStorage solo graba string y menu es una matriz
+    //por lo tanto lo tenemos que convertir a un string por eso el json
   }
-
-
+  
   get token(): string {
     return localStorage.getItem('token') || '';
   }
-
+  
   get uid():string{
     return this.usuario.uid || '';
   }
 
+  get role():'ADMIN_ROLE' | 'USER_ROLE' | undefined {
+     return this.usuario.role;
+  }
+  
   get headers(){
     return {
       headers: {
@@ -79,10 +80,12 @@ export class UsuarioService {
         //optenerla...... '' seria la password esperada
         //console.log(resp.usuario)
         const{ email, google, nombre, img = '', role, uid } = resp.usuario;
-
+        
         this.usuario = new Usuario( nombre, email, '', img, google, role, uid );
         
-        localStorage.setItem('token', resp.token );
+        //localStorage.setItem('token', resp.token );
+        //lo que viene es para la configuracion del rol
+        this.guardarLocalStorage(resp.token, resp.menu);
 
         return true;
       }),
@@ -97,9 +100,9 @@ export class UsuarioService {
   crearUsuario( formData: RegisterForm ){
 
   return this.http.post(`${base_url}/usuarios`, formData)
-              .pipe(
-                tap( (resp: any) => {
-                  localStorage.setItem('token', resp.token)
+  .pipe(
+    tap( (resp: any) => {
+                  this.guardarLocalStorage(resp.token, resp.menu);
                 })
               );
  
@@ -112,25 +115,40 @@ export class UsuarioService {
       ...data,
       role: this.usuario.role
     };
-
+    
     return this.http.put(`${base_url}/usuarios/${ this.uid }`, data, this.headers);
     
-
+    
   }
-
-
+  
+  
   //para guardar el token en el local storage ocupamos usar tap de rxjs
   //para eso usamos el comando pipe luego tap y con esto guardamos el item que queramos
   //en el local storage, estraemos token de la respuesta con el nombre de token
   login( formData: LoginForm){
-
+    
     return this.http.post(`${base_url}/login`, formData)
-                .pipe(
-                  tap( (resp: any) => {
-                    localStorage.setItem('token', resp.token)
-                  })
-                );
+    .pipe(
+      tap( (resp: any) => {
+        console.log(resp)
+        this.guardarLocalStorage(resp.token, resp.menu);
+      })
+    );
+    
+  }
+  
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('menu');
 
+    //TODO: BOrrrar menu
+    
+    google.accounts.id.revoke('mec102092@gmail.com', () =>{
+      
+      this.router.navigateByUrl('/login');
+      
+    })
+  
   }
 
   loginGoogle(token: string){
@@ -138,7 +156,7 @@ export class UsuarioService {
                 .pipe(
                   tap( (resp: any) => {
                     // console.log(resp)
-                    localStorage.setItem('token', resp.token)
+                    this.guardarLocalStorage(resp.token, resp.menu);
                   })
                 );
   }

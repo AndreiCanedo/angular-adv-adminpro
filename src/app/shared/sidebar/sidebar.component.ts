@@ -9,7 +9,7 @@ import { Usuario } from '../../models/usuario.model';
   styles: ``
 })
 export class SidebarComponent{
-  private sidebarServices = inject(SidebarService);
+  public sidebarServices = inject(SidebarService);
   
   
   
@@ -19,7 +19,7 @@ export class SidebarComponent{
   
   
   
-  public menuItems:any[] = this.sidebarServices.menu;
+  // public menuItems:any[] = this.sidebarServices.menu;
   
 
   //public nombre = this.usuarioService.usuario.nombre;

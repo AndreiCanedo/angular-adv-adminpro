@@ -1,5 +1,8 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { UsuarioService } from '../../services/usuario.service';
+
 import { Usuario } from '../../models/usuario.model';
 
 @Component({
@@ -13,6 +16,7 @@ export class HeaderComponent {
 
   public usuario!:Usuario;
   private usuarioService = inject(UsuarioService);
+  private router = inject(Router);
 
  ////// public nombre = this.usuarioService.usuario.nombre;
 
@@ -25,6 +29,15 @@ export class HeaderComponent {
 
   logout() {
     this.usuarioService.logout();
+  }
+
+  buscar( termino: string){
+    if( termino.length === 0 ){
+      return;
+    }
+
+    this.router.navigateByUrl(`/dashboard/buscar/${ termino }`);
+
   }
 
 }
